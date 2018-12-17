@@ -32,7 +32,8 @@ namespace Amazon.Runtime
         /// environment variable should not be overriden by the client code.
         /// </summary>
         public const string ContainerCredentialsURIEnvVariable = "AWS_CONTAINER_CREDENTIALS_RELATIVE_URI";        
-        public const string EndpointAddress = "http://169.254.170.2";
+        public const string ContainerMetadataEndpointEnvVariable = "AWS_CONTAINER_METADATA_ENDPOINT";
+        public const string ContainerMetadataEndpointDefault = "http://169.254.170.2";
 
         private string Uri = null;
         private string Server = null;
@@ -45,7 +46,9 @@ namespace Amazon.Runtime
         public ECSTaskCredentials(IWebProxy proxy)
         {
             Uri = System.Environment.GetEnvironmentVariable(ECSTaskCredentials.ContainerCredentialsURIEnvVariable);
-            Server = EndpointAddress;
+            var ContainerMetadataEndpoint = System.Environment.GetEnvironmentVariable(ECSTaskCredentials.ContainerMetadataEndpointEnvVariable);
+            
+            Server = ContainerMetadataEndpoint ?? ContainerMetadataEndpointDefault;
             Proxy = proxy;
         }
 

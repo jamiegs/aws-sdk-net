@@ -84,6 +84,14 @@ namespace Amazon.Runtime
         #region Constructors
 
         /// <summary>
+        /// Constructs a static InstanceProfileAWSCredentials object.
+        /// </summary>
+        private static InstanceProfileAWSCredentials()
+        {
+            SetMetadataServerHost();
+        }
+
+        /// <summary>
         /// Constructs a InstanceProfileAWSCredentials object for specific role
         /// </summary>
         /// <param name="role">Role to use</param>
@@ -157,11 +165,22 @@ namespace Amazon.Runtime
 
         #region Private members
 
+        public const string ENVIRONMENT_VARIABLE_METADATA_HOST = "AWS_EC2_METADATA_HOST";
+        public const string DEFAULT_METADATA_HOST = "http://169.254.169.254";
         private static string[] AliasSeparators = new string[] { "<br/>" };
-        private static string Server = "http://169.254.169.254";
+        private static string Server; 
         private static string RolesPath = "/latest/meta-data/iam/security-credentials/";
         private static string InfoPath = "/latest/meta-data/iam/info";
 
+
+        private static SetMetadataServerHost()
+        {
+            if (Server == null)
+                Server = Environment.GetEnvironmentVariable(ENVIRONMENT_VARIABLE_METADATA_HOST);
+
+            if (Server == null)
+                Server = DEFAULT_METADATA_HOST;
+        }
         private static Uri RolesUri
         {
             get

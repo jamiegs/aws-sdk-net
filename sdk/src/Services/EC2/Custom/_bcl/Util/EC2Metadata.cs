@@ -55,10 +55,25 @@ namespace Amazon.EC2.Util
               + " Please update your code to use the Amazon.Util.EC2InstanceMetadata class, located in the AWSSDK.Core assembly.")]
     public static class EC2Metadata
     {
+        public static EC2Metadata()
+        {
+            var OverriddenHost = Environment.GetEnvironmentVariable(ENVIRONMENT_VARIABLE_METADATA_HOST);
+            if (OverriddenHost != null)
+            {
+                EC2_METADATA_SVC = OverriddenHost;
+            } else {
+                EC2_METADATA_SVC = DEFAULT_EC2_METADATA_SVC;
+            }
+            EC2_METADATA_ROOT = EC2_METADATA_SVC + LATEST + "meta-data";
+            EC2_USERDATA_ROOT = EC2_METADATA_SVC + LATEST + "user-data/";
+        }
         private static string
-            EC2_METADATA_SVC = "http://169.254.169.254",
-            EC2_METADATA_ROOT = EC2_METADATA_SVC + "/latest/meta-data",
-            EC2_USERDATA_ROOT = EC2_METADATA_SVC + "/latest/user-data/";
+            ENVIRONMENT_VARIABLE_METADATA_HOST = "AWS_EC2_METADATA_HOST",
+            DEFAULT_EC2_METADATA_SVC = "http://169.254.169.254",
+            EC2_METADATA_SVC,
+            EC2_METADATA_ROOT,
+            EC2_USERDATA_ROOT,
+            LATEST = "/latest/";
 
         private static int
             DEFAULT_RETRIES = 3,

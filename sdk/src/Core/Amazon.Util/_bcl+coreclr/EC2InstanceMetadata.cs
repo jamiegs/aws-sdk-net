@@ -53,12 +53,30 @@ namespace Amazon.Util
     /// </remarks>
     public static class EC2InstanceMetadata
     {
+        public static EC2InstanceMetadata()
+        {
+            var OverriddenHost = Environment.GetEnvironmentVariable(ENVIRONMENT_VARIABLE_METADATA_HOST);
+            if (OverriddenHost != null)
+            {
+                EC2_METADATA_SVC = OverriddenHost;
+            } else {
+                EC2_METADATA_SVC = DEFAULT_EC2_METADATA_SVC;
+            }
+            
+            EC2_METADATA_ROOT = EC2_METADATA_SVC + LATEST + "/meta-data";
+            EC2_USERDATA_ROOT = EC2_METADATA_SVC + LATEST + "/user-data";
+            EC2_DYNAMICDATA_ROOT = EC2_METADATA_SVC + LATEST + "/dynamic";
+            EC2_DYNAMICDATA_ROOT = EC2_METADATA_SVC + LATEST + "/dynamic";
+        }
+
         public static readonly string
-            EC2_METADATA_SVC = "http://169.254.169.254",
+            ENVIRONMENT_VARIABLE_METADATA_HOST = "AWS_EC2_METADATA_HOST",
+            DEFAULT_EC2_METADATA_SVC = "http://169.254.169.254",
+            EC2_METADATA_SVC,
             LATEST = "/latest",
-            EC2_METADATA_ROOT = EC2_METADATA_SVC + LATEST + "/meta-data",
-            EC2_USERDATA_ROOT = EC2_METADATA_SVC + LATEST + "/user-data",
-            EC2_DYNAMICDATA_ROOT = EC2_METADATA_SVC + LATEST + "/dynamic",
+            EC2_METADATA_ROOT,
+            EC2_USERDATA_ROOT,
+            EC2_DYNAMICDATA_ROOT,
             AWS_EC2_METADATA_DISABLED = "AWS_EC2_METADATA_DISABLED";
 
         private static int
