@@ -55,13 +55,8 @@ namespace Amazon.Util
     {
         public static EC2InstanceMetadata()
         {
-            var OverriddenHost = Environment.GetEnvironmentVariable(ENVIRONMENT_VARIABLE_METADATA_ENDPOINT);
-            if (OverriddenHost != null)
-            {
-                EC2_METADATA_SVC = OverriddenHost;
-            } else {
-                EC2_METADATA_SVC = DEFAULT_EC2_METADATA_SVC;
-            }
+            var OverriddenEndpoint = Environment.GetEnvironmentVariable(ENVIRONMENT_VARIABLE_METADATA_ENDPOINT);
+            EC2_METADATA_SVC = string.IsNullOrWhiteSpace(OverriddenEndpoint) ? DEFAULT_EC2_METADATA_SVC : OverriddenEndpoint;
             
             EC2_METADATA_ROOT = EC2_METADATA_SVC + LATEST + "/meta-data";
             EC2_USERDATA_ROOT = EC2_METADATA_SVC + LATEST + "/user-data";

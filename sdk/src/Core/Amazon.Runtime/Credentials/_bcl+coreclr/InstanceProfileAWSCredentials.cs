@@ -172,14 +172,10 @@ namespace Amazon.Runtime
         private static string RolesPath = "/latest/meta-data/iam/security-credentials/";
         private static string InfoPath = "/latest/meta-data/iam/info";
 
-
         private static SetMetadataServerHost()
         {
             if (Server == null)
-                Server = Environment.GetEnvironmentVariable(ENVIRONMENT_VARIABLE_METADATA_ENDPOINT);
-
-            if (Server == null)
-                Server = DEFAULT_METADATA_ENDPOINT;
+                Server = Environment.GetEnvironmentVariable(ENVIRONMENT_VARIABLE_METADATA_ENDPOINT) ?? DEFAULT_METADATA_ENDPOINT;
         }
         private static Uri RolesUri
         {
