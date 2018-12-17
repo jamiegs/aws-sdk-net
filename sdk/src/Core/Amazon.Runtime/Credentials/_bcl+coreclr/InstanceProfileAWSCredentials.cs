@@ -165,8 +165,8 @@ namespace Amazon.Runtime
 
         #region Private members
 
-        public const string ENVIRONMENT_VARIABLE_METADATA_HOST = "AWS_EC2_METADATA_HOST";
-        public const string DEFAULT_METADATA_HOST = "http://169.254.169.254";
+        public const string ENVIRONMENT_VARIABLE_METADATA_ENDPOINT = "AWS_EC2_METADATA_ENDPOINT";
+        public const string DEFAULT_METADATA_ENDPOINT = "http://169.254.169.254";
         private static string[] AliasSeparators = new string[] { "<br/>" };
         private static string Server; 
         private static string RolesPath = "/latest/meta-data/iam/security-credentials/";
@@ -176,10 +176,10 @@ namespace Amazon.Runtime
         private static SetMetadataServerHost()
         {
             if (Server == null)
-                Server = Environment.GetEnvironmentVariable(ENVIRONMENT_VARIABLE_METADATA_HOST);
+                Server = Environment.GetEnvironmentVariable(ENVIRONMENT_VARIABLE_METADATA_ENDPOINT);
 
             if (Server == null)
-                Server = DEFAULT_METADATA_HOST;
+                Server = DEFAULT_METADATA_ENDPOINT;
         }
         private static Uri RolesUri
         {

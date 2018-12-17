@@ -55,7 +55,7 @@ namespace Amazon.Util
     {
         public static EC2InstanceMetadata()
         {
-            var OverriddenHost = Environment.GetEnvironmentVariable(ENVIRONMENT_VARIABLE_METADATA_HOST);
+            var OverriddenHost = Environment.GetEnvironmentVariable(ENVIRONMENT_VARIABLE_METADATA_ENDPOINT);
             if (OverriddenHost != null)
             {
                 EC2_METADATA_SVC = OverriddenHost;
@@ -70,7 +70,7 @@ namespace Amazon.Util
         }
 
         public static readonly string
-            ENVIRONMENT_VARIABLE_METADATA_HOST = "AWS_EC2_METADATA_HOST",
+            ENVIRONMENT_VARIABLE_METADATA_ENDPOINT = "AWS_EC2_METADATA_ENDPOINT",
             DEFAULT_EC2_METADATA_SVC = "http://169.254.169.254",
             EC2_METADATA_SVC,
             LATEST = "/latest",
