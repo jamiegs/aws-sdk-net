@@ -29,6 +29,7 @@ using Amazon.Runtime;
 using ThirdParty.Json.LitJson;
 using System.Globalization;
 using Amazon.Runtime.Internal.Util;
+using Amazon.Util.Internal;
 
 namespace Amazon.Util
 {
@@ -53,10 +54,10 @@ namespace Amazon.Util
     /// </remarks>
     public static class EC2InstanceMetadata
     {
-        public static EC2InstanceMetadata()
+        static EC2InstanceMetadata()
         {
-            var OverriddenEndpoint = Environment.GetEnvironmentVariable(ENVIRONMENT_VARIABLE_METADATA_ENDPOINT);
-            EC2_METADATA_SVC = string.IsNullOrWhiteSpace(OverriddenEndpoint) ? DEFAULT_EC2_METADATA_SVC : OverriddenEndpoint;
+            var overriddenEndpoint = Environment.GetEnvironmentVariable(ENVIRONMENT_VARIABLE_METADATA_ENDPOINT);
+            EC2_METADATA_SVC = string.IsNullOrWhiteSpace(overriddenEndpoint) ? DEFAULT_EC2_METADATA_SVC : overriddenEndpoint;
             
             EC2_METADATA_ROOT = EC2_METADATA_SVC + LATEST + "/meta-data";
             EC2_USERDATA_ROOT = EC2_METADATA_SVC + LATEST + "/user-data";
@@ -91,7 +92,7 @@ namespace Amazon.Util
                 string value = string.Empty;
                 try
                 {
-                    value = System.Environment.GetEnvironmentVariable(AWS_EC2_METADATA_DISABLED);
+                    value = Environment.GetEnvironmentVariable(AWS_EC2_METADATA_DISABLED);
                 } catch { };
                 return !True.Equals(value, StringComparison.OrdinalIgnoreCase);
             }

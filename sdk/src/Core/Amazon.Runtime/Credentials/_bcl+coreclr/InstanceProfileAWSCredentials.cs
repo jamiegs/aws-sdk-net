@@ -86,7 +86,7 @@ namespace Amazon.Runtime
         /// <summary>
         /// Constructs a static InstanceProfileAWSCredentials object.
         /// </summary>
-        private static InstanceProfileAWSCredentials()
+        static InstanceProfileAWSCredentials()
         {
             SetMetadataServerHost();
         }
@@ -165,17 +165,17 @@ namespace Amazon.Runtime
 
         #region Private members
 
-        public const string ENVIRONMENT_VARIABLE_METADATA_ENDPOINT = "AWS_EC2_METADATA_ENDPOINT";
-        public const string DEFAULT_METADATA_ENDPOINT = "http://169.254.169.254";
+        private const string ENVIRONMENT_VARIABLE_METADATA_ENDPOINT = "AWS_EC2_METADATA_ENDPOINT";
+        private const string DEFAULT_METADATA_ENDPOINT = "http://169.254.169.254";
         private static string[] AliasSeparators = new string[] { "<br/>" };
         private static string Server; 
         private static string RolesPath = "/latest/meta-data/iam/security-credentials/";
         private static string InfoPath = "/latest/meta-data/iam/info";
 
-        private static SetMetadataServerHost()
+        private static void SetMetadataServerHost()
         {
-            if (Server == null)
-                Server = Environment.GetEnvironmentVariable(ENVIRONMENT_VARIABLE_METADATA_ENDPOINT) ?? DEFAULT_METADATA_ENDPOINT;
+            var overriddenEndpoint = Environment.GetEnvironmentVariable(ENVIRONMENT_VARIABLE_METADATA_ENDPOINT);
+            Server = string.IsNullOrWhiteSpace(overriddenEndpoint) ? DEFAULT_METADATA_ENDPOINT : overriddenEndpoint;
         }
         private static Uri RolesUri
         {
